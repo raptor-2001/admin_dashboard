@@ -10,7 +10,7 @@ import { useStateContext } from '../contexts/ContextProvider';
 
 const Sidebar = () => {
 
-  const {activeMenu, setActiveMenu} = useStateContext();
+  const {currentColor, activeMenu, setActiveMenu, screenSize} = useStateContext();
 
   const activeLink = 'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg  text-white  text-md m-2';
 
@@ -29,6 +29,7 @@ const Sidebar = () => {
           <TooltipComponent content="Menu" position="BottomCenter">
             <button
               type="button"
+              style={{color: currentColor}}
               onClick={() => setActiveMenu(
                 (preActive) => !preActive)}
               className="text-xl rounded-full p-3 hover:bg-light-gray mt-4 block md:hidden"
@@ -48,6 +49,9 @@ const Sidebar = () => {
                   to={`/${link.name}`}
                   key={link.name}
                   onClick={() => {}}
+                  style={({isActive}) => ({
+                    backgroundColor: isActive?currentColor:'',
+                  })}
                   className={({ isActive }) => (isActive ? activeLink : normalLink)}
                 >
                   {link.icon}

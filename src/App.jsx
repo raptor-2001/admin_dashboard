@@ -13,10 +13,19 @@ import './App.css'
 
 const App = () => {
 
-  const {activeMenu} = useStateContext();
+  const {setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings} = useStateContext();
   
+  useEffect(() => {
+    const currentThemeColor = localStorage.getItem('colorMode');
+    const currentThemeMode = localStorage.getItem('themeMode');
+
+    if(currentThemeColor && currentThemeColor);
+    setCurrentColor(currentThemeColor);
+    setCurrentMode(currentThemeMode);
+  })
+
   return (
-    <div>
+    <div className={currentMode === 'Dark' ? 'dark': ''}>
       <BrowserRouter>
           <div className="flex relative dark:bg-main-dark-bg">
             <div className="fixed right-4 bottom-4" style={{zIndex: '1000'}}>
@@ -24,8 +33,8 @@ const App = () => {
                   content="Settings" position='Top'>
                     <button type='button'
                     className='text-3xl p-3 hover:drop-shadow-xl hover:bg-light-gray text-white'
-                    style={{background: 'blue',
-                    borderRadius: '50%'}}>
+                    onClick={() => setThemeSettings(true)}
+                    style={{ background: currentColor, borderRadius: '50%' }}>
                       <FiSettings/>
                     </button>
                 </TooltipComponent>
@@ -49,6 +58,8 @@ const App = () => {
             
 
             <div>
+                {themeSettings && (<ThemeSettings/>)}
+                
               <Routes>
                 {/* Dashboard */}
                 <Route path='/'  element={<Ecommerce/>}/>
